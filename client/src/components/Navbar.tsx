@@ -1,6 +1,6 @@
 import { useState, Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
-import { Menu } from 'lucide-react';
+import { ArrowUpRight, Menu } from 'lucide-react';
 import { ApertureMark } from './ApertureMark';
 import { Button } from '@/components/ui/button';
 import { useScrolled, useActiveSection, cn } from '@/lib/utils';
@@ -47,7 +47,7 @@ export function Navbar({ visible }: NavbarProps) {
       >
         <nav
           aria-label="Primary"
-          className="mx-auto max-w-[1400px] px-6 md:px-10 h-20 flex items-center justify-between"
+          className="mx-auto flex h-[88px] max-w-[1400px] items-center justify-between px-6 md:px-10"
         >
           {/* Logo */}
           <a
@@ -56,18 +56,21 @@ export function Navbar({ visible }: NavbarProps) {
               e.preventDefault();
               handleNavigate('#top');
             }}
-            className="flex items-center gap-3 group"
+            className="group flex items-center gap-3"
             aria-label="IMAGINE Studio — home"
           >
-            <ApertureMark
-              size={24}
-              radius={6.8}
-              color="#D4AF37"
-              strokeWidth={0.9}
-              className="group-hover:opacity-80 transition-opacity"
-            />
-            <span className="font-display text-sm md:text-base font-medium text-white group-hover:text-[#D4AF37] transition-colors">
-              Imagine
+            <span className="flex h-9 w-9 items-center justify-center border border-[#D4AF37]/60 bg-black/20 transition-colors group-hover:border-[#D4AF37]">
+              <ApertureMark
+                size={28}
+                radius={7.4}
+                color="#D4AF37"
+                strokeWidth={0.95}
+                className="transition-transform duration-500 group-hover:rotate-90"
+              />
+            </span>
+            <span className="flex flex-col leading-none">
+              <span className="font-display text-base font-semibold uppercase tracking-[0.18em] text-white transition-colors group-hover:text-[#D4AF37] md:text-lg">IMAGINE</span>
+              <span className="mt-1 font-body text-[8px] uppercase tracking-[0.28em] text-white/45">Creative Production Studio</span>
             </span>
           </a>
 
@@ -94,9 +97,10 @@ export function Navbar({ visible }: NavbarProps) {
           <div className="hidden md:block">
             <Button
               onClick={() => handleNavigate('#contact')}
-              className="bg-[#D4AF37] text-[#050505] hover:bg-[#E5C158] font-medium text-sm"
+              variant="ghost"
+              className="group h-auto rounded-none border-b border-[#D4AF37]/60 bg-transparent px-0 py-2 font-body text-[10px] uppercase tracking-[0.2em] text-[#D4AF37] hover:border-[#D4AF37] hover:bg-transparent hover:text-white"
             >
-              Get In Touch
+              Get In Touch <ArrowUpRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Button>
           </div>
 

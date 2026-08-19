@@ -109,3 +109,12 @@ The wordmark is "Imagine" in Space Grotesk, uppercase, tracking-widest, position
 8. ⬜ Testimonials
 9. ⬜ Final CTA
 10. ⬜ Footer
+
+
+## Style Decisions
+
+- The hero remains left-anchored and bottom-weighted, with a film-title-card frame, a gold vertical rule, and production-credit microcopy.
+- The aperture mark and IMAGINE wordmark now appear as a stronger studio lockup in the navigation and recur inside section headers and the final end-card.
+- Gold is treated as precision light: it appears in aperture geometry, rules, numerals, selected words, and a restrained outlined CTA before expanding into a deliberate gradient end-card.
+- Aperture geometry is now a recurring visual grammar rather than a single loader asset, appearing in section framing, hero rings, and the contact end-card.
+- Display headlines stay spacious and cinematic while labels, numerals, captions, and CTA copy use a tighter production-credit system.
