@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Menu } from 'lucide-react';
 import { ApertureMark } from './ApertureMark';
@@ -41,7 +41,7 @@ export function Navbar({ visible }: NavbarProps) {
         className={cn(
           'fixed top-0 inset-x-0 z-40 transition-[background-color,backdrop-filter,border-color] duration-500',
           scrolled
-            ? 'bg-[#050505]/60 backdrop-blur-xl border-b border-[rgba(255,255,255,0.08)] shadow-[0_1px_0_rgba(255,255,255,0.04)]'
+            ? 'bg-[#050505]/80 backdrop-blur-xl border-b border-[rgba(255,255,255,0.08)]'
             : 'bg-transparent'
         )}
       >
@@ -49,81 +49,84 @@ export function Navbar({ visible }: NavbarProps) {
           aria-label="Primary"
           className="mx-auto flex h-[88px] max-w-[1400px] items-center justify-between px-6 md:px-10"
         >
-          {/* Logo */}
-          <a
-            href="#top"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavigate('#top');
-            }}
-            className="group flex items-center gap-3"
-            aria-label="IMAGINE Studio — home"
-          >
-            <span className="flex h-9 w-9 items-center justify-center border border-[#D4AF37]/60 bg-black/20 transition-colors group-hover:border-[#D4AF37]">
-              <ApertureMark
-                size={28}
-                radius={7.4}
-                color="#D4AF37"
-                strokeWidth={0.95}
-                className="transition-transform duration-500 group-hover:rotate-90"
-              />
-            </span>
-            <span className="flex flex-col leading-none">
-              <span className="font-display text-base font-semibold uppercase tracking-[0.18em] text-white transition-colors group-hover:text-[#D4AF37] md:text-lg">IMAGINE</span>
-              <span className="mt-1 font-body text-[8px] uppercase tracking-[0.28em] text-white/45">Creative Production Studio</span>
-            </span>
-          </a>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navigationLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => handleNavigate(link.href)}
-                className={cn(
-                  'text-sm font-body transition-colors',
-                  activeId === link.id
-                    ? 'text-[#D4AF37]'
-                    : 'text-[#9F9F9F] hover:text-white'
-                )}
-                aria-current={activeId === link.id ? 'page' : undefined}
-              >
-                {link.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-            <Button
-              onClick={() => handleNavigate('#contact')}
-              variant="ghost"
-              className="group h-auto rounded-none border-b border-[#D4AF37]/60 bg-transparent px-0 py-2 font-body text-[10px] uppercase tracking-[0.2em] text-[#D4AF37] hover:border-[#D4AF37] hover:bg-transparent hover:text-white"
-            >
-              Get In Touch <ArrowUpRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Button>
-          </div>
-
-          {/* Mobile Menu Trigger */}
+          {/* Brand Logo Lockup */}
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-white hover:text-[#D4AF37] transition-colors"
-            aria-label="Toggle menu"
-            aria-expanded={mobileOpen}
+            type="button"
+            onClick={() => handleNavigate('#top')}
+            className="group flex items-center gap-3 text-left focus:outline-none"
           >
-            <Menu className="w-6 h-6" />
+            <span className="flex h-9 w-9 items-center justify-center border border-[#D4AF37]/50 bg-[#D4AF37]/10 transition-colors group-hover:border-[#D4AF37]">
+              <ApertureMark size={22} radius={5} color="#D4AF37" strokeWidth={0.8} />
+            </span>
+            <div>
+              <span className="block font-display text-sm font-medium tracking-[0.2em] text-white">
+                IMAGINE
+              </span>
+              <span className="block font-body text-[8px] uppercase tracking-[0.3em] text-[#D4AF37]">
+                Creative Studio
+              </span>
+            </div>
           </button>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden items-center gap-8 md:flex">
+            {navigationLinks.map((link) => {
+              const isActive = activeId === link.id;
+              return (
+                <button
+                  key={link.id}
+                  type="button"
+                  onClick={() => handleNavigate(link.href)}
+                  className={cn(
+                    'relative font-body text-xs uppercase tracking-[0.22em] transition-colors py-2',
+                    isActive ? 'text-[#D4AF37]' : 'text-white/70 hover:text-white'
+                  )}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeIndicator"
+                      className="absolute inset-x-0 bottom-0 h-[2px] bg-[#D4AF37]"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right Action & Mobile Trigger */}
+          <div className="flex items-center gap-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleNavigate('#contact')}
+              className="hidden md:inline-flex items-center gap-2 border-white/20 bg-transparent text-white hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 hover:text-[#D4AF37]"
+            >
+              <span>Get in touch</span>
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Button>
+
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              className="flex h-10 w-10 items-center justify-center border border-white/20 bg-white/5 text-white md:hidden hover:border-[#D4AF37]"
+              aria-label="Open navigation menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+          </div>
         </nav>
       </motion.header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Drawer */}
       <Suspense fallback={null}>
         <MobileMenu
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
-          onNavigate={handleNavigate}
-          activeId={activeId}
           links={navigationLinks}
+          activeId={activeId}
+          onNavigate={handleNavigate}
         />
       </Suspense>
     </>
