@@ -1,11 +1,12 @@
-import { useState, useRef, type ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState, useRef, type ReactNode } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   ArrowDownRight,
   ArrowUpRight,
   Play,
   Volume2,
   VolumeX,
+  X,
 } from 'lucide-react';
 import { Loader } from '@/components/Loader';
 import { Navbar } from '@/components/Navbar';
@@ -15,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { ApertureMark } from '@/components/ApertureMark';
 
 const STORAGE = '/manus-storage/';
+const PROJECT_VIDEO = `${STORAGE}hero-reel_5f187be8.mp4`;
 
 const projects = [
   {
@@ -23,6 +25,7 @@ const projects = [
     category: 'Brand Film · Luxury',
     year: '2025',
     image: `${STORAGE}portfolio-1_b319db7e.jpg`,
+    video: PROJECT_VIDEO,
     color: '#D4AF37',
   },
   {
@@ -31,6 +34,7 @@ const projects = [
     category: 'Campaign · Fashion',
     year: '2024',
     image: `${STORAGE}portfolio-2_29db68a7.jpg`,
+    video: PROJECT_VIDEO,
     color: '#F2C879',
   },
   {
@@ -39,6 +43,7 @@ const projects = [
     category: 'Experience · Digital',
     year: '2024',
     image: `${STORAGE}portfolio-3_c33e19e7.jpg`,
+    video: PROJECT_VIDEO,
     color: '#9C8B5B',
   },
 ];
@@ -109,7 +114,27 @@ function SectionHeader({ eyebrow, title, copy }: { eyebrow: string; title: React
 
 function HomeContent() {
   const [introDone, setIntroDone] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<(typeof projects)[number] | null>(null);
+  const [lightboxVideoFailed, setLightboxVideoFailed] = useState(false);
   const { scrollTo } = useLenisContext();
+
+  useEffect(() => {
+    if (!selectedProject) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedProject(null);
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    setLightboxVideoFailed(false);
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedProject]);
 
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-[#D4AF37] selection:text-black">
@@ -141,7 +166,7 @@ function HomeContent() {
                     'group relative cursor-pointer overflow-hidden bg-white/5 border border-white/10',
                     i === 0 && 'md:col-span-2 lg:col-span-2'
                   )}
-                  onClick={() => alert(`Opening project: ${project.title}`)}
+                  onClick={() => setSelectedProject(project)}
                 >
                   <div className="aspect-[16/10] overflow-hidden bg-black/40">
                     <img
@@ -169,10 +194,11 @@ function HomeContent() {
             <div className="mt-16 flex justify-center">
               <button
                 type="button"
-                onClick={() => scrollTo('#portfolio')}
+                onClick={() => setSelectedProject(projects[0])}
                 className="group flex items-center gap-3 border border-white/20 bg-transparent px-8 py-4 font-body text-xs uppercase tracking-[0.2em] text-white transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
               >
-                <span>See the full reel</span>
+                <Play className="h-3.5 w-3.5" />
+                <span>Open the full reel</span>
                 <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
               </button>
             </div>
@@ -278,6 +304,79 @@ function HomeContent() {
             </div>
           </div>
         </section>
+
+        <AnimatePresence>
+          {selectedProject && (
+            <motion.div
+              key="portfolio-lightbox"
+              className="fixed inset-0 z-[80] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md md:p-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="lightbox-title"
+              onMouseDown={(event) => {
+                if (event.target === event.currentTarget) setSelectedProject(null);
+              }}
+            >
+              <motion.div
+                className="relative flex max-h-[92svh] w-full max-w-6xl flex-col overflow-hidden border border-white/15 bg-[#0b0b0b] shadow-2xl md:flex-row"
+                initial={{ opacity: 0, scale: 0.96, y: 18 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96, y: 18 }}
+                transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
+              >
+                <div className="relative min-h-[42vh] flex-1 bg-black md:min-h-0">
+                  {!lightboxVideoFailed ? (
+                    <video
+                      className="h-full min-h-[42vh] w-full object-cover md:min-h-[560px]"
+                      src={selectedProject.video}
+                      poster={selectedProject.image}
+                      controls
+                      autoPlay
+                      muted
+                      playsInline
+                      preload="metadata"
+                      onError={() => setLightboxVideoFailed(true)}
+                    />
+                  ) : (
+                    <div className="relative h-full min-h-[42vh] md:min-h-[560px]">
+                      <img src={selectedProject.image} alt={selectedProject.title} className="h-full w-full object-cover" />
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-6 pb-6 pt-20 font-body text-xs uppercase tracking-[0.18em] text-white/75">Preview unavailable — showing project still</div>
+                    </div>
+                  )}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 to-transparent" />
+                </div>
+
+                <div className="flex w-full flex-col justify-between border-t border-white/10 bg-[#0b0b0b] p-6 md:w-[290px] md:border-l md:border-t-0 md:p-8">
+                  <div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="font-body text-[10px] uppercase tracking-[0.25em] text-[#D4AF37]">{selectedProject.number} / Selected work</span>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedProject(null)}
+                        className="flex h-9 w-9 items-center justify-center border border-white/15 text-white/70 transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                        aria-label="Close project video"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <h2 id="lightbox-title" className="mt-12 font-display text-3xl leading-none tracking-[-0.04em] text-white">{selectedProject.title}</h2>
+                    <p className="mt-4 font-body text-xs uppercase tracking-[0.2em] text-white/50">{selectedProject.category}</p>
+                  </div>
+                  <div className="mt-12 border-t border-white/10 pt-5 font-body text-xs leading-6 text-white/45">
+                    <div className="flex items-center justify-between">
+                      <span>Year</span>
+                      <span className="text-white/75">{selectedProject.year}</span>
+                    </div>
+                    <p className="mt-5">Use the player controls for full-screen viewing. Press Escape or click outside the frame to close.</p>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     </div>
   );
