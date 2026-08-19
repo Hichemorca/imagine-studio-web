@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { useState, useRef, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import {
   ArrowDownRight,
@@ -107,156 +107,186 @@ function SectionHeader({ eyebrow, title, copy }: { eyebrow: string; title: React
   );
 }
 
-export default function Home() {
+function HomeContent() {
   const [introDone, setIntroDone] = useState(false);
   const { scrollTo } = useLenisContext();
 
   return (
-    <LenisProvider enabled={introDone}>
-      <div className="relative overflow-hidden bg-[#050505] text-white">
-        <Loader onComplete={() => setIntroDone(true)} />
-        <Navbar visible={introDone} />
-        <AudioDirector />
+    <div className="min-h-screen bg-[#050505] text-white selection:bg-[#D4AF37] selection:text-black">
+      <Loader onComplete={() => setIntroDone(true)} />
+      <Navbar visible={introDone} />
+      <AudioDirector />
+
+      <main id="top">
         <Hero introDone={introDone} />
 
-        <main>
-          <section id="portfolio" className="relative bg-[#050505] px-6 py-28 md:px-10 md:py-40">
-            <div className="mx-auto max-w-[1400px]">
-              <SectionHeader
-                eyebrow="Selected work / 01"
-                title={<>Stories that make <em className="font-display not-italic text-[#D4AF37]">people feel.</em></>}
-                copy="A few frames from a much larger reel. We build cultural memory for brands with something to say."
-              />
+        {/* Selected Work */}
+        <section id="portfolio" className="px-6 py-28 md:px-10 md:py-40">
+          <div className="mx-auto max-w-[1400px]">
+            <SectionHeader
+              eyebrow="Selected Work / 01"
+              title={<>Stories that make people feel.</>}
+              copy="A few frames from a much larger reel. We build cultural memory for brands with something to say."
+            />
 
-              <div className="mt-20 grid gap-7 md:grid-cols-12 md:gap-5">
-                {projects.map((project, index) => (
-                  <motion.article
-                    key={project.title}
-                    initial={{ opacity: 0, y: 34 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.25 }}
-                    transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className={cn('group relative', index === 0 ? 'md:col-span-7' : 'md:col-span-5', index === 1 && 'md:mt-24')}
-                  >
-                    <div className="relative aspect-[16/10] overflow-hidden bg-[#141414]">
-                      <img
-                        src={project.image}
-                        alt={`${project.title} project still`}
-                        className="h-full w-full object-cover grayscale-[0.15] transition duration-700 ease-out group-hover:scale-105 group-hover:grayscale-0"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-95" />
-                      <div className="absolute left-5 top-5 flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-white/70">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#D4AF37]" /> {project.number}
-                      </div>
-                      <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
-                        <div>
-                          <p className="mb-2 font-body text-[10px] uppercase tracking-[0.2em] text-[#D4AF37]">{project.category}</p>
-                          <h3 className="font-display text-2xl leading-none text-white md:text-3xl">{project.title}</h3>
-                        </div>
-                        <span className="font-body text-xs text-white/50">{project.year}</span>
-                      </div>
-                      <div className="absolute right-5 top-5 flex h-10 w-10 translate-y-2 items-center justify-center border border-white/20 bg-black/20 opacity-0 backdrop-blur-sm transition duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                        <ArrowUpRight className="h-4 w-4 text-[#D4AF37]" />
-                      </div>
+            <div className="mt-16 grid gap-8 md:mt-24 md:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project, i) => (
+                <motion.div
+                  key={project.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: i * 0.15, ease: [0.23, 1, 0.32, 1] }}
+                  className={cn(
+                    'group relative cursor-pointer overflow-hidden bg-white/5 border border-white/10',
+                    i === 0 && 'md:col-span-2 lg:col-span-2'
+                  )}
+                  onClick={() => alert(`Opening project: ${project.title}`)}
+                >
+                  <div className="aspect-[16/10] overflow-hidden bg-black/40">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity group-hover:opacity-80" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 flex items-end justify-between">
+                    <div>
+                      <span className="font-body text-[10px] uppercase tracking-[0.25em] text-[#D4AF37]">
+                        {project.category}
+                      </span>
+                      <h3 className="mt-2 font-display text-2xl font-medium tracking-tight text-white md:text-3xl">
+                        {project.title}
+                      </h3>
                     </div>
-                  </motion.article>
-                ))}
-              </div>
+                    <span className="font-body text-xs text-white/50">{project.year}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                onClick={() => scrollTo('#contact')}
-                className="mt-14 inline-flex items-center gap-3 border-b border-[#D4AF37]/50 pb-2 font-body text-xs uppercase tracking-[0.24em] text-[#D4AF37] transition-colors hover:border-[#D4AF37] hover:text-white"
+            <div className="mt-16 flex justify-center">
+              <button
+                type="button"
+                onClick={() => scrollTo('#portfolio')}
+                className="group flex items-center gap-3 border border-white/20 bg-transparent px-8 py-4 font-body text-xs uppercase tracking-[0.2em] text-white transition-colors hover:border-[#D4AF37] hover:text-[#D4AF37]"
               >
-                See the full reel <ArrowDownRight className="h-4 w-4" />
-              </motion.button>
+                <span>See the full reel</span>
+                <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
+              </button>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section id="about" className="relative overflow-hidden bg-[#111111] px-6 py-28 md:px-10 md:py-40">
-            <div className="absolute right-[-10%] top-[16%] h-[420px] w-[420px] rounded-full border border-[#D4AF37]/15 md:h-[620px] md:w-[620px]" />
-            <div className="absolute right-[0%] top-[27%] h-[260px] w-[260px] rounded-full border border-[#D4AF37]/20 md:h-[390px] md:w-[390px]" />
-            <div className="relative mx-auto max-w-[1400px]">
-              <SectionHeader
-                eyebrow="The studio / 02"
-                title={<>Business first.<br /><span className="text-white/35">Story always.</span></>}
-                copy="IMAGINE is an independent creative production studio for brands ready to move with intention."
-              />
-              <div className="mt-20 grid gap-12 md:grid-cols-[1fr_1fr] md:gap-24">
-                <div className="max-w-xl">
-                  <p className="font-display text-2xl leading-tight text-white md:text-4xl">We turn clear thinking into <span className="text-[#D4AF37]">cinema</span> — work that looks beautiful, works hard, and leaves a trace.</p>
-                  <p className="mt-8 max-w-md font-body text-sm leading-7 text-white/55">From the first question to the final grade, every decision has a job. Strategy gives the story a spine. Craft gives it a pulse.</p>
-                </div>
-                <div className="grid gap-8 border-l border-white/10 pl-6 md:grid-cols-2 md:pl-10">
-                  {['Strategy-led', 'Culture-aware', 'Detail-obsessed', 'Built to move'].map((item, index) => (
-                    <div key={item} className="border-t border-white/10 pt-4">
-                      <span className="font-body text-[10px] text-[#D4AF37]">0{index + 1}</span>
-                      <h3 className="mt-4 font-display text-xl text-white">{item}</h3>
-                    </div>
-                  ))}
-                </div>
+        {/* The Studio */}
+        <section id="about" className="border-t border-white/10 bg-[#080808] px-6 py-28 md:px-10 md:py-40">
+          <div className="mx-auto max-w-[1400px]">
+            <SectionHeader
+              eyebrow="The Studio / 02"
+              title={<>Business first. Story always.</>}
+              copy="IMAGINE is an independent creative production studio for brands ready to move with intention."
+            />
+
+            <div className="mt-16 grid gap-12 md:mt-24 md:grid-cols-2 md:gap-20 items-center">
+              <div>
+                <p className="font-display text-2xl leading-snug text-white md:text-3xl lg:text-4xl">
+                  We turn clear thinking into <span className="text-[#D4AF37]">cinema</span> — work that looks beautiful, works hard, and leaves a trace.
+                </p>
+                <p className="mt-6 font-body text-base leading-7 text-white/55">
+                  From the first question to the final grade, every decision has a job. Strategy gives the story a spine. Craft gives it a pulse.
+                </p>
               </div>
-            </div>
-          </section>
 
-          <section id="process" className="bg-[#050505] px-6 py-28 md:px-10 md:py-40">
-            <div className="mx-auto max-w-[1400px]">
-              <SectionHeader
-                eyebrow="How we work / 03"
-                title={<>Make it matter.<br /><span className="text-white/35">Then make it move.</span></>}
-                copy="A focused process keeps the work brave, useful, and unmistakably yours."
-              />
-              <div className="mt-20 grid border-t border-white/10 md:grid-cols-4">
-                {processSteps.map(([number, title, description], index) => (
-                  <motion.div
-                    key={number}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.35 }}
-                    transition={{ duration: 0.6, delay: index * 0.08 }}
-                    className="group border-b border-white/10 py-7 md:border-b-0 md:border-r md:px-6 md:py-0 md:first:pl-0 md:last:border-r-0"
-                  >
-                    <span className="font-body text-[10px] tracking-[0.2em] text-[#D4AF37]">{number}</span>
-                    <h3 className="mt-14 font-display text-3xl text-white transition-colors group-hover:text-[#D4AF37]">{title}</h3>
-                    <p className="mt-5 max-w-[190px] font-body text-sm leading-6 text-white/45">{description}</p>
-                    <ArrowDownRight className="mt-12 h-5 w-5 text-white/30 transition group-hover:translate-x-1 group-hover:translate-y-1 group-hover:text-[#D4AF37]" />
-                  </motion.div>
+              <div className="grid grid-cols-2 gap-6 border border-white/10 p-8 bg-black/40">
+                {[
+                  ['01', 'Strategy-led'],
+                  ['02', 'Culture-aware'],
+                  ['03', 'Detail-obsessed'],
+                  ['04', 'Built to move'],
+                ].map(([num, label]) => (
+                  <div key={num} className="border-b border-white/10 pb-6">
+                    <span className="font-body text-[10px] uppercase tracking-[0.25em] text-[#D4AF37]">{num}</span>
+                    <h4 className="mt-2 font-display text-lg font-medium text-white">{label}</h4>
+                  </div>
                 ))}
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section id="contact" className="relative overflow-hidden bg-gradient-to-br from-[#D4AF37] via-[#E6C45B] to-[#B58B22] px-6 py-28 text-[#050505] md:px-10 md:py-40">
-            <div className="pointer-events-none absolute -right-[4%] top-[10%] font-display text-[17vw] font-semibold uppercase leading-none tracking-[-0.09em] text-black/[0.06]">IMAGINE</div>
-            <div className="pointer-events-none absolute right-[8%] top-[12%] hidden md:block"><ApertureMark size={140} radius={34} color="#050505" strokeWidth={0.8} className="opacity-20" /></div>
-            <div className="absolute bottom-[-35%] left-[-5%] h-[520px] w-[520px] rounded-full border border-black/15" />
-            <div className="absolute bottom-[-18%] left-[5%] h-[300px] w-[300px] rounded-full border border-black/20" />
-            <div className="relative mx-auto max-w-[1400px]">
-              <div className="grid gap-12 md:grid-cols-[1.4fr_0.8fr] md:items-end">
-                <div>
-                  <span className="font-body text-[10px] uppercase tracking-[0.28em] text-black/60">Start a conversation / 04</span>
-                  <h2 className="mt-8 max-w-4xl font-display text-5xl leading-[0.9] tracking-[-0.05em] md:text-8xl">Have a story worth telling?</h2>
-                </div>
-                <div className="md:pb-2">
-                  <p className="max-w-sm font-body text-sm leading-7 text-black/65">Tell us what you are building, shifting, or daring to imagine. We will bring the right questions.</p>
-                  <motion.a
-                    whileTap={{ scale: 0.97 }}
-                    href="mailto:hello@imagine.studio"
-                    className="mt-8 inline-flex items-center gap-3 border-b border-black/50 pb-2 font-body text-xs uppercase tracking-[0.22em] transition-colors hover:border-black hover:text-black/60"
-                  >
-                    hello@imagine.studio <ArrowUpRight className="h-4 w-4" />
-                  </motion.a>
-                </div>
+        {/* How We Work */}
+        <section id="process" className="border-t border-white/10 px-6 py-28 md:px-10 md:py-40">
+          <div className="mx-auto max-w-[1400px]">
+            <SectionHeader
+              eyebrow="How We Work / 03"
+              title={<>Make it matter.<br />Then make it move.</>}
+              copy="A focused process keeps the work brave, useful, and unmistakably yours."
+            />
+
+            <div className="mt-16 grid gap-8 md:mt-24 md:grid-cols-4">
+              {processSteps.map(([num, title, description]) => (
+                <motion.div
+                  key={num}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: Number(num) * 0.1 }}
+                  className="group relative border-t border-white/20 pt-8"
+                >
+                  <span className="font-body text-xs uppercase tracking-[0.25em] text-[#D4AF37]">{num}</span>
+                  <h3 className="mt-4 font-display text-2xl font-medium text-white">{title}</h3>
+                  <p className="mt-5 max-w-[190px] font-body text-sm leading-6 text-white/45">{description}</p>
+                  <ArrowDownRight className="mt-12 h-5 w-5 text-white/30 transition group-hover:translate-x-1 group-hover:translate-y-1 group-hover:text-[#D4AF37]" />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="relative overflow-hidden bg-gradient-to-br from-[#D4AF37] via-[#E6C45B] to-[#B58B22] px-6 py-28 text-[#050505] md:px-10 md:py-40">
+          <div className="pointer-events-none absolute -right-[4%] top-[10%] font-display text-[17vw] font-semibold uppercase leading-none tracking-[-0.09em] text-black/[0.06]">IMAGINE</div>
+          <div className="pointer-events-none absolute right-[8%] top-[12%] hidden md:block">
+            <ApertureMark size={140} radius={34} color="#050505" strokeWidth={0.8} className="opacity-20" />
+          </div>
+          <div className="absolute bottom-[-35%] left-[-5%] h-[520px] w-[520px] rounded-full border border-black/15" />
+          <div className="absolute bottom-[-18%] left-[5%] h-[300px] w-[300px] rounded-full border border-black/20" />
+          <div className="relative mx-auto max-w-[1400px]">
+            <div className="grid gap-12 md:grid-cols-[1.4fr_0.8fr] md:items-end">
+              <div>
+                <span className="font-body text-[10px] uppercase tracking-[0.28em] text-black/60">Start a conversation / 04</span>
+                <h2 className="mt-8 max-w-4xl font-display text-5xl leading-[0.9] tracking-[-0.05em] md:text-8xl">Have a story worth telling?</h2>
               </div>
-              <div className="mt-24 flex flex-col gap-6 border-t border-black/20 pt-6 font-body text-[10px] uppercase tracking-[0.2em] text-black/55 md:flex-row md:items-center md:justify-between">
-                <span>IMAGINE Studio © 2025</span>
-                <span>Made for the stories ahead</span>
-                <button type="button" onClick={() => scrollTo('#top')} className="flex items-center gap-2 transition-colors hover:text-black"><Play className="h-3 w-3 rotate-[-90deg]" /> Back to top</button>
+              <div className="md:pb-2">
+                <p className="max-w-sm font-body text-sm leading-7 text-black/65">Tell us what you are building, shifting, or daring to imagine. We will bring the right questions.</p>
+                <motion.a
+                  whileTap={{ scale: 0.97 }}
+                  href="mailto:hello@imagine.studio"
+                  className="mt-8 inline-flex items-center gap-3 border-b border-black/50 pb-2 font-body text-xs uppercase tracking-[0.22em] transition-colors hover:border-black hover:text-black/60"
+                >
+                  hello@imagine.studio <ArrowUpRight className="h-4 w-4" />
+                </motion.a>
               </div>
             </div>
-          </section>
-        </main>
-      </div>
+            <div className="mt-24 flex flex-col gap-6 border-t border-black/20 pt-6 font-body text-[10px] uppercase tracking-[0.2em] text-black/55 md:flex-row md:items-center md:justify-between">
+              <span>IMAGINE Studio © 2025</span>
+              <span>Made for the stories ahead</span>
+              <button type="button" onClick={() => scrollTo('#top')} className="flex items-center gap-2 transition-colors hover:text-black">
+                <Play className="h-3 w-3 rotate-[-90deg]" /> Back to top
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <LenisProvider>
+      <HomeContent />
     </LenisProvider>
   );
 }
