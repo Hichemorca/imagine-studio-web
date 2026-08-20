@@ -15,8 +15,11 @@ import { LenisProvider, useLenisContext } from '@/lib/LenisProvider';
 import { cn } from '@/lib/utils';
 import { ApertureMark } from '@/components/ApertureMark';
 
-const STORAGE = '/manus-storage/';
-const PROJECT_VIDEO = `${STORAGE}hero-reel_5f187be8.mp4`;
+const PROJECT_VIDEO = 'https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-41671-large.mp4';
+const portfolioImg1 = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1600&auto=format&fit=crop';
+const portfolioImg2 = 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1600&auto=format&fit=crop';
+const portfolioImg3 = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop';
+const studioAudio = 'https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3';
 
 const projects = [
   {
@@ -24,7 +27,7 @@ const projects = [
     title: 'Time, Reframed',
     category: 'Brand Film · Luxury',
     year: '2025',
-    image: `${STORAGE}portfolio-1_b319db7e.jpg`,
+    image: portfolioImg1,
     video: PROJECT_VIDEO,
     color: '#D4AF37',
   },
@@ -33,7 +36,7 @@ const projects = [
     title: 'Golden Hour',
     category: 'Campaign · Fashion',
     year: '2024',
-    image: `${STORAGE}portfolio-2_29db68a7.jpg`,
+    image: portfolioImg2,
     video: PROJECT_VIDEO,
     color: '#F2C879',
   },
@@ -42,7 +45,7 @@ const projects = [
     title: 'Beyond the Frame',
     category: 'Experience · Digital',
     year: '2024',
-    image: `${STORAGE}portfolio-3_c33e19e7.jpg`,
+    image: portfolioImg3,
     video: PROJECT_VIDEO,
     color: '#9C8B5B',
   },
@@ -79,7 +82,7 @@ function AudioDirector() {
     <div className="fixed bottom-5 left-5 z-30 md:bottom-8 md:left-8">
       <audio
         ref={audioRef}
-        src={`${STORAGE}studio-ambient_37db43f1.mp3`}
+        src={studioAudio}
         loop
         onEnded={() => setPlaying(false)}
       />

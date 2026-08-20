@@ -10,8 +10,8 @@ interface HeroProps {
   introDone: boolean;
 }
 
-const HERO_IMAGE = '/manus-storage/hero-cinematic_a943511b.jpg';
-const HERO_VIDEO = '/manus-storage/hero-reel_5f187be8.mp4';
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2000&auto=format&fit=crop';
+const HERO_VIDEO = 'https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-41671-large.mp4';
 
 export function Hero({ introDone }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
