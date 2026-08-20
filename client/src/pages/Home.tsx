@@ -99,7 +99,7 @@ function AudioDirector() {
 
 function SectionHeader({ eyebrow, title, copy }: { eyebrow: string; title: ReactNode; copy: string }) {
   return (
-    <div className="grid gap-8 border-t border-white/10 pt-6 md:grid-cols-[0.8fr_1.5fr_1fr] md:gap-14">
+    <div className="grid gap-6 border-t border-white/10 pt-6 md:grid-cols-[0.8fr_1.5fr_1fr] md:gap-10">
       <div className="flex items-start gap-3">
         <span className="mt-0.5 flex h-7 w-7 items-center justify-center border border-[#D4AF37]/45">
           <ApertureMark size={18} radius={4.6} color="#D4AF37" strokeWidth={0.8} />
@@ -146,7 +146,7 @@ function HomeContent() {
         <Hero introDone={introDone} />
 
         {/* Selected Work */}
-        <section id="portfolio" className="px-6 py-28 md:px-10 md:py-40">
+        <section id="portfolio" className="px-6 py-20 md:px-10 md:py-28">
           <div className="mx-auto max-w-[1400px]">
             <SectionHeader
               eyebrow="Selected Work / 01"
@@ -154,7 +154,7 @@ function HomeContent() {
               copy="A few frames from a much larger reel. We build cultural memory for brands with something to say."
             />
 
-            <div className="mt-16 grid gap-8 md:mt-24 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid gap-6 md:mt-16 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project, i) => (
                 <motion.div
                   key={project.title}
@@ -176,7 +176,7 @@ function HomeContent() {
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity group-hover:opacity-80" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 md:p-8 flex items-end justify-between">
+                  <div className="absolute inset-x-0 bottom-0 p-5 md:p-6 flex items-end justify-between">
                     <div>
                       <span className="font-body text-[10px] uppercase tracking-[0.25em] text-[#D4AF37]">
                         {project.category}
@@ -191,7 +191,7 @@ function HomeContent() {
               ))}
             </div>
 
-            <div className="mt-16 flex justify-center">
+            <div className="mt-10 flex justify-center">
               <button
                 type="button"
                 onClick={() => setSelectedProject(projects[0])}
@@ -206,7 +206,7 @@ function HomeContent() {
         </section>
 
         {/* The Studio */}
-        <section id="about" className="border-t border-white/10 bg-[#080808] px-6 py-28 md:px-10 md:py-40">
+        <section id="about" className="border-t border-white/10 bg-[#080808] px-6 py-20 md:px-10 md:py-28">
           <div className="mx-auto max-w-[1400px]">
             <SectionHeader
               eyebrow="The Studio / 02"
@@ -214,24 +214,24 @@ function HomeContent() {
               copy="IMAGINE is an independent creative production studio for brands ready to move with intention."
             />
 
-            <div className="mt-16 grid gap-12 md:mt-24 md:grid-cols-2 md:gap-20 items-center">
+            <div className="mt-10 grid gap-8 md:mt-16 md:grid-cols-2 md:gap-14 items-center">
               <div>
                 <p className="font-display text-2xl leading-snug text-white md:text-3xl lg:text-4xl">
                   We turn clear thinking into <span className="text-[#D4AF37]">cinema</span> — work that looks beautiful, works hard, and leaves a trace.
                 </p>
-                <p className="mt-6 font-body text-base leading-7 text-white/55">
+                <p className="mt-4 font-body text-base leading-7 text-white/55">
                   From the first question to the final grade, every decision has a job. Strategy gives the story a spine. Craft gives it a pulse.
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-6 border border-white/10 p-8 bg-black/40">
+              <div className="grid grid-cols-2 gap-4 border border-white/10 p-6 md:p-7 bg-black/40">
                 {[
                   ['01', 'Strategy-led'],
                   ['02', 'Culture-aware'],
                   ['03', 'Detail-obsessed'],
                   ['04', 'Built to move'],
                 ].map(([num, label]) => (
-                  <div key={num} className="border-b border-white/10 pb-6">
+                  <div key={num} className="border-b border-white/10 pb-4">
                     <span className="font-body text-[10px] uppercase tracking-[0.25em] text-[#D4AF37]">{num}</span>
                     <h4 className="mt-2 font-display text-lg font-medium text-white">{label}</h4>
                   </div>
@@ -242,7 +242,7 @@ function HomeContent() {
         </section>
 
         {/* How We Work */}
-        <section id="process" className="border-t border-white/10 px-6 py-28 md:px-10 md:py-40">
+        <section id="process" className="border-t border-white/10 px-6 py-20 md:px-10 md:py-28">
           <div className="mx-auto max-w-[1400px]">
             <SectionHeader
               eyebrow="How We Work / 03"
@@ -250,7 +250,7 @@ function HomeContent() {
               copy="A focused process keeps the work brave, useful, and unmistakably yours."
             />
 
-            <div className="mt-16 grid gap-8 md:mt-24 md:grid-cols-4">
+            <div className="mt-10 grid gap-7 md:mt-16 md:grid-cols-4">
               {processSteps.map(([num, title, description]) => (
                 <motion.div
                   key={num}
@@ -258,12 +258,12 @@ function HomeContent() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: Number(num) * 0.1 }}
-                  className="group relative border-t border-white/20 pt-8"
+                  className="group relative border-t border-white/20 pt-6"
                 >
                   <span className="font-body text-xs uppercase tracking-[0.25em] text-[#D4AF37]">{num}</span>
-                  <h3 className="mt-4 font-display text-2xl font-medium text-white">{title}</h3>
-                  <p className="mt-5 max-w-[190px] font-body text-sm leading-6 text-white/45">{description}</p>
-                  <ArrowDownRight className="mt-12 h-5 w-5 text-white/30 transition group-hover:translate-x-1 group-hover:translate-y-1 group-hover:text-[#D4AF37]" />
+                  <h3 className="mt-3 font-display text-2xl font-medium text-white">{title}</h3>
+                  <p className="mt-3 max-w-[190px] font-body text-sm leading-6 text-white/45">{description}</p>
+                  <ArrowDownRight className="mt-8 h-5 w-5 text-white/30 transition group-hover:translate-x-1 group-hover:translate-y-1 group-hover:text-[#D4AF37]" />
                 </motion.div>
               ))}
             </div>
@@ -271,7 +271,7 @@ function HomeContent() {
         </section>
 
         {/* Contact */}
-        <section id="contact" className="relative overflow-hidden bg-gradient-to-br from-[#D4AF37] via-[#E6C45B] to-[#B58B22] px-6 py-28 text-[#050505] md:px-10 md:py-40">
+        <section id="contact" className="relative overflow-hidden bg-gradient-to-br from-[#D4AF37] via-[#E6C45B] to-[#B58B22] px-6 py-20 text-[#050505] md:px-10 md:py-28">
           <div className="pointer-events-none absolute -right-[4%] top-[10%] font-display text-[17vw] font-semibold uppercase leading-none tracking-[-0.09em] text-black/[0.06]">IMAGINE</div>
           <div className="pointer-events-none absolute right-[8%] top-[12%] hidden md:block">
             <ApertureMark size={140} radius={34} color="#050505" strokeWidth={0.8} className="opacity-20" />
@@ -279,10 +279,10 @@ function HomeContent() {
           <div className="absolute bottom-[-35%] left-[-5%] h-[520px] w-[520px] rounded-full border border-black/15" />
           <div className="absolute bottom-[-18%] left-[5%] h-[300px] w-[300px] rounded-full border border-black/20" />
           <div className="relative mx-auto max-w-[1400px]">
-            <div className="grid gap-12 md:grid-cols-[1.4fr_0.8fr] md:items-end">
+            <div className="grid gap-8 md:grid-cols-[1.4fr_0.8fr] md:items-end">
               <div>
                 <span className="font-body text-[10px] uppercase tracking-[0.28em] text-black/60">Start a conversation / 04</span>
-                <h2 className="mt-8 max-w-4xl font-display text-5xl leading-[0.9] tracking-[-0.05em] md:text-8xl">Have a story worth telling?</h2>
+                <h2 className="mt-6 max-w-4xl font-display text-5xl leading-[0.9] tracking-[-0.05em] md:text-8xl">Have a story worth telling?</h2>
               </div>
               <div className="md:pb-2">
                 <p className="max-w-sm font-body text-sm leading-7 text-black/65">Tell us what you are building, shifting, or daring to imagine. We will bring the right questions.</p>
@@ -295,7 +295,7 @@ function HomeContent() {
                 </motion.a>
               </div>
             </div>
-            <div className="mt-24 flex flex-col gap-6 border-t border-black/20 pt-6 font-body text-[10px] uppercase tracking-[0.2em] text-black/55 md:flex-row md:items-center md:justify-between">
+            <div className="mt-14 flex flex-col gap-5 border-t border-black/20 pt-6 font-body text-[10px] uppercase tracking-[0.2em] text-black/55 md:flex-row md:items-center md:justify-between">
               <span>IMAGINE Studio © 2025</span>
               <span>Made for the stories ahead</span>
               <button type="button" onClick={() => scrollTo('#top')} className="flex items-center gap-2 transition-colors hover:text-black">
